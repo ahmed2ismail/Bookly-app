@@ -1,0 +1,29 @@
+import 'package:bookly_app/Core/utils/assets.dart';
+import 'package:flutter/material.dart';
+
+class CustomListViewItem extends StatelessWidget {
+  const CustomListViewItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.3,
+      // ال AspectRatio هتظبط ابعاد الصورة علي اساس ابعاد ال SizedBox والصورة هتبقي Responsible و مظبوطة علي اي جهاز
+      child: AspectRatio(
+        // AspectRatio widget: بتستخدم لضبط نسبة الطول والعرض وبتطنش ال width, height بتاع ال child
+        // يعني انا بقولها انا هديكي قيمة واحدة وعايزك تظبطي القيمة التانية علي اساسها
+        aspectRatio: 2.7 / 4,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.red,
+            image: const DecorationImage(
+              image: AssetImage(AssetsData.testImage),
+              fit: BoxFit.fill,
+            ),
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      ),
+    );
+  }
+}

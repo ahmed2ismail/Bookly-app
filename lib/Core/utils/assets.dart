@@ -10,4 +10,5 @@ class AssetsData {
   // 2- توفير الرام (Memory): لأن الصورة دي بتتحجز في الذاكرة "مرة واحدة بس" مهما استخدمتها في 100 صفحة، عكس المتغيرات العادية اللي بتتحجز مع كل نسخة جديدة من الكلاس.
 
   static const String logo = 'assets/images/Logo.png';
+  static const String testImage = 'assets/images/test_image.png';
 }
