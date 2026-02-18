@@ -1,6 +1,11 @@
 import 'package:bookly_app/Core/utils/assets.dart';
 import 'package:bookly_app/Features/Splash/presentation/views/widgets/sliding_animation_text.dart';
+import 'package:bookly_app/Features/home/presentation/views/home_view.dart';
+import 'package:bookly_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -26,25 +31,10 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void initState() {
     // استخدمنا ال initState عشان أول ما ال Widget تظهر في ال UI يبدأ ال Animation يشتغل علطول
-    animationController = AnimationController(
-      // vsync: this --> يعني ال SingleTickerProviderStateMixin اللي فوق دا
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
     super.initState();
-    // كده احنا عملنا ال AnimationController ولو احنا عايزين نستخدمه زي مهو كده ب value من 0 ل 1 هنستخدم animationController.value =0 or 1; بس احنا عايزين value من 0 ل 60 مثلا اللي هي دقيقة كاملة فهنستخدم ال Animation slideTransitionAnimation اللي هنحطه فوق دا عشان يدينا القيمة اللي احنا عايزينها
-    slideTransitionAnimation = Tween<Offset>(
-      // Tween animation دي هتتعامل مع القيمة Offset
-      begin: const Offset(0, 2),
-      end: const Offset(0, 0),
-    ).animate(animationController);
-    // هنستخدم معاه ويدجت اسمها SlideTransition علي المكان اللي عايزين نعمله انيميشن
-    // بس كده ال ui مش هيتعمله update خالص وهنحل دا كدا :
-    // slideTransitionAnimation.addListener(() => setState(() {}));
-    // .addListener --> بمعني حط ودانك معاه ولما القيمة تتغير اعملي setState يعني حدث ال ui بس كده الشاشة كلها هتتحدث مش النص بس او الحاجة اللي احنا عايزين نعملها انيميشن
-    // الحل هو ان احنا ن wrap ال SlideTransition مع AnimatedBuilder
-    animationController
-        .forward(); //--> عشان تمشي ال animation بصورة سلسة لحد نهايته
+    initSlideTransitionAnimation();
+    navigateToHome();
+    // مبدا ال single responsability principle هو بكل بساطة إننا نقسم الكود لوظائف صغيرة (Methods) كل واحدة مسؤولة عن حاجة معينة، عشان كدا عملنا الـ initSlideTransitionAnimation في Method لوحدها والـ Navigation في Method تانية و الانتقال لشاشة ال home_view في method عشان الكود يكون منظم وسهل القراءة والصيانة.
   }
 
   @override
@@ -69,4 +59,38 @@ class _SplashViewBodyState extends State<SplashViewBody>
       ],
     );
   }
+
+  void initSlideTransitionAnimation() {
+    animationController = AnimationController(
+      // vsync: this --> يعني ال SingleTickerProviderStateMixin اللي فوق دا
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    // كده احنا عملنا ال AnimationController ولو احنا عايزين نستخدمه زي مهو كده ب value من 0 ل 1 هنستخدم animationController.value =0 or 1; بس احنا عايزين value من 0 ل 60 مثلا اللي هي دقيقة كاملة فهنستخدم ال Animation slideTransitionAnimation اللي هنحطه فوق دا عشان يدينا القيمة اللي احنا عايزينها
+    slideTransitionAnimation = Tween<Offset>(
+      // Tween animation دي هتتعامل مع القيمة Offset
+      begin: const Offset(0, 2),
+      end: const Offset(0, 0),
+    ).animate(animationController);
+    // هنستخدم معاه ويدجت اسمها SlideTransition علي المكان اللي عايزين نعمله انيميشن
+    // بس كده ال ui مش هيتعمله update خالص وهنحل دا كدا :
+    // slideTransitionAnimation.addListener(() => setState(() {}));
+    // .addListener --> بمعني حط ودانك معاه ولما القيمة تتغير اعملي setState يعني حدث ال ui بس كده الشاشة كلها هتتحدث مش النص بس او الحاجة اللي احنا عايزين نعملها انيميشن
+    // الحل هو ان احنا ن wrap ال SlideTransition مع AnimatedBuilder
+    animationController
+        .forward(); //--> عشان تمشي ال animation بصورة سلسة لحد نهايته
+  }
+
+    void navigateToHome() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        Get.to(
+          () => const HomeView(),
+          transition: Transition.fade,
+          duration: kTransitonDuration,
+        );
+      }
+    });
+  }
+
 }
