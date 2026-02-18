@@ -1,7 +1,6 @@
-import 'dart:ui';
-
+import 'package:bookly_app/Core/utils/styles.dart';
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_appbar.dart';
-import 'package:bookly_app/Features/home/presentation/views/widgets/custom_list_view_item.dart';
+import 'package:bookly_app/Features/home/presentation/views/widgets/featured_books_list_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -9,35 +8,16 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(children: [CustomAppBar(), FuturedBooksListView()]);
-  }
-}
-
-class FuturedBooksListView extends StatelessWidget {
-  const FuturedBooksListView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.3,
-      // ال AspectRatio هتظبط ابعاد الصورة علي اساس ابعاد ال SizedBox والصورة هتبقي Responsible و مظبوطة علي اي جهاز
-      child: ScrollConfiguration(
-        behavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.touch,
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.trackpad,
-          },
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 20,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) => const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: FuturedListViewItem(),
-          ),
-        ),
+    return const Padding(
+      padding: EdgeInsets.only(left: 24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomAppBar(),
+          FuturedBooksListView(),
+          SizedBox(height: 50),
+          Text('Best Seller', style: Styles.titleMedium),
+        ],
       ),
     );
   }
