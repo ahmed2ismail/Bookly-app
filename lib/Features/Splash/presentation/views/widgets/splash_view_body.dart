@@ -1,11 +1,8 @@
+import 'package:bookly_app/Core/utils/app_router.dart';
 import 'package:bookly_app/Core/utils/assets.dart';
 import 'package:bookly_app/Features/Splash/presentation/views/widgets/sliding_animation_text.dart';
-import 'package:bookly_app/Features/home/presentation/views/home_view.dart';
-import 'package:bookly_app/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -81,16 +78,16 @@ class _SplashViewBodyState extends State<SplashViewBody>
         .forward(); //--> عشان تمشي ال animation بصورة سلسة لحد نهايته
   }
 
-    void navigateToHome() {
+  void navigateToHome() {
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        Get.to(
-          () => const HomeView(),
-          transition: Transition.fade,
-          duration: kTransitonDuration,
-        );
+        // Get.to(
+        //   () => const HomeView(),
+        //   transition: Transition.fade,
+        //   duration: kTransitonDuration,
+        // );
+        GoRouter.of(context).push(AppRouter.kHomeView);
       }
     });
   }
-
 }
