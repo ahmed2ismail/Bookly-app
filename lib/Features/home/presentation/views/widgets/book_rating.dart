@@ -10,10 +10,10 @@ class BookRating extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: () {},
-          icon: const Icon(FontAwesomeIcons.solidStar, color: kRatingStarColor),
+        const Icon(
+          size: 18,
+          FontAwesomeIcons.solidStar,
+          color: kRatingStarColor,
         ),
         const SizedBox(width: 6.3),
         const Text('4.8', style: Styles.textStyle16),
