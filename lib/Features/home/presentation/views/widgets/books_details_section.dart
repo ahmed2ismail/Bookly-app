@@ -3,6 +3,7 @@ import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_
 import 'package:bookly_app/Features/home/presentation/views/widgets/book_rating.dart';
 import 'package:bookly_app/Core/utils/styles.dart';
 import 'package:flutter/material.dart';
+
 class BookDetailsSection extends StatelessWidget {
   const BookDetailsSection({super.key});
 

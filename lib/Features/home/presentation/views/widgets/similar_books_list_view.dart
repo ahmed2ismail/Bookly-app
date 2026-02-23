@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_image.dart';
 import 'package:flutter/material.dart';
+
 class SimilarBooksListView extends StatelessWidget {
   const SimilarBooksListView({super.key});
 
