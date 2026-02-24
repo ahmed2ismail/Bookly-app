@@ -7,6 +7,7 @@ class ApiService {
 
   ApiService(this._dio);
 
+// احنا هنا حاطين ال get request بتاعنا بس عشان احنا لسه ما احتجناش غير ال get request في ال api call بتاعتنا لل features دول featured books و best seller books بس في المستقبل ممكن نحتاج اي نوع تاني من ال requests زي ال post request او ال put request او ال delete request فانا هضيفهم هنا لما احتاجهم في المستقبل
   Future<Map<String, dynamic>> get({required String endpoint}) async {
     var response = await _dio.get('$_baseUrl$endpoint');
     return response.data;
