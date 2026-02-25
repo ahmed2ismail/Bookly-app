@@ -45,8 +45,22 @@ class HomeRepoImplementaion implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<BooksModel>>> fetchFeaturedBooks() {
-    // TODO: implement fetchFeaturedBooks
-    throw UnimplementedError();
+  Future<Either<Failure, List<BooksModel>>> fetchFeaturedBooks() async {
+    // نفس المنطق بنطبقه هنا لجلب الكتب المختارة (featured books) من ال API بس بنغير ال endpoint اللي بنناديه عشان يجيبلي الكتب المخترة بدل الكتب الجديدة
+    try {
+      var data = await apiService.get(
+        endpoint: 'volumes?Filtering=free-ebooks&q=subject:Programming',
+      );
+      List<BooksModel> books = [];
+      for (var item in data['items']) {
+        books.add(BooksModel.fromJson(item));
+      }
+      return right(books);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
   }
 }
