@@ -83,6 +83,53 @@ class ServerFailure extends Failure {
 // ---------------------------------------------------------
 class CacheFailure extends Failure {
   CacheFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحويل أخطاء التخزين المحلي لرسائل واضحة
+  factory CacheFailure.fromDioError(DioException dioError) {
+    // هنا ممكن تحلل أخطاء التخزين المحلي لو حبيت تضيفها في المستقبل
+    if (dioError.type == DioExceptionType.connectionTimeout) {
+      return CacheFailure(
+        'Connection timeout with Cache Server. Please try again later.',
+      );
+    } else if (dioError.type == DioExceptionType.sendTimeout) {
+      return CacheFailure(
+        'Send timeout with Cache Server. Please try again later.',
+      );
+    } else if (dioError.type == DioExceptionType.receiveTimeout) {
+      return CacheFailure(
+        'Receive timeout with Cache Server. Please try again later.',
+      );
+    } else if (dioError.type == DioExceptionType.cancel) {
+      return CacheFailure('Request to Cache Server was canceled.');
+    } else if (dioError.type == DioExceptionType.connectionError) {
+      return CacheFailure('No Connection to Cache Server.');
+    } else if (dioError.type == DioExceptionType.unknown &&
+        dioError.message != null &&
+        dioError.message!.contains('HiveError')) {
+      return CacheFailure('Cache storage error. Please try again later.');
+    } else if (dioError.type == DioExceptionType.badResponse &&
+        dioError.response != null &&
+        dioError.response!.statusCode == 404) {
+      return CacheFailure.fromResponse(
+        dioError.response!.statusCode!,
+        dioError.response!.data,
+      );
+    } else {
+      return CacheFailure('Unexpected Error, Please try again!');
+    }
+  }
+
+  // ممكن تضيف مصنع لتحليل أخطاء Hive لو حبيتها
+  factory CacheFailure.fromResponse(int statusCode, dynamic response) {
+    // هنا ممكن تحلل أخطاء Hive لو حبيت تضيفها في المستقبل
+    if (statusCode == 404) {
+      return CacheFailure('No cached data found.');
+    } else if (statusCode == 500) {
+      return CacheFailure('Cache storage error. Please try again later.');
+    } else {
+      return CacheFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
 
 // ---------------------------------------------------------
@@ -91,6 +138,38 @@ class CacheFailure extends Failure {
 // ---------------------------------------------------------
 class NetworkFailure extends Failure {
   NetworkFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحليل أخطاء الشبكة لو حبيتها
+  factory NetworkFailure.fromDioError(DioException dioError) {
+    // هنا ممكن تحلل أخطاء الشبكة لو حبيت تضيفها في المستقبل
+    if (dioError.type == DioExceptionType.connectionTimeout) {
+      return NetworkFailure(
+        'Connection timeout. Please check your internet connection and try again.',
+      );
+    } else if (dioError.type == DioExceptionType.connectionError) {
+      return NetworkFailure('No Internet Connection. Please try again later.');
+    } else if (dioError.type == DioExceptionType.cancel) {
+      return NetworkFailure('Network request was canceled. Please try again.');
+    } else if (dioError.type == DioExceptionType.unknown &&
+        dioError.message != null &&
+        dioError.message!.contains('SocketException')) {
+      return NetworkFailure('No Internet Connection. Please try again later.');
+    } else {
+      return NetworkFailure('Unexpected Network Error, Please try again!');
+    }
+  }
+
+  // ممكن تضيف مصنع لتحليل أخطاء الشبكة لو حبيتها
+  factory NetworkFailure.fromResponse(int statusCode, dynamic response) {
+    // هنا ممكن تحلل أخطاء الشبكة لو حبيت تضيفها في المستقبل
+    if (statusCode == 404) {
+      return NetworkFailure('No network connection found.');
+    } else if (statusCode == 500) {
+      return NetworkFailure('Network error. Please try again later.');
+    } else {
+      return NetworkFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
 
 // ---------------------------------------------------------
@@ -99,6 +178,30 @@ class NetworkFailure extends Failure {
 // ---------------------------------------------------------
 class LogicFailure extends Failure {
   LogicFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحليل أخطاء المنطق لو حبيتها
+  factory LogicFailure.fromDioError(DioException dioError) {
+    // هنا ممكن تحلل أخطاء المنطق لو حبيت تضيفها في المستقبل
+    if (dioError.type == DioExceptionType.unknown) {
+      return LogicFailure('Unexpected logic error occurred. Please try again.');
+    } else {
+      return LogicFailure('Opps There was an Error, Please try again');
+    }
+  }
+
+  // ممكن تضيف مصنع لتحليل أخطاء المنطق لو حبيتها
+  factory LogicFailure.fromResponse(int statusCode, dynamic response) {
+    // هنا ممكن تحلل أخطاء المنطق لو حبيت تضيفها في المستقبل
+    if (statusCode == 400) {
+      return LogicFailure('Invalid data format. Please check your input.');
+    } else if (statusCode == 500) {
+      return LogicFailure(
+        'Unexpected processing error. Please try again later.',
+      );
+    } else {
+      return LogicFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
 
 // ---------------------------------------------------------
@@ -109,14 +212,83 @@ class LogicFailure extends Failure {
 // لو طلبت كتب من السيرفر ورجع القائمة فاضية
 class EmptyServerFailure extends Failure {
   EmptyServerFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحليل حالة البيانات الفارغة من السيرفر
+  factory EmptyServerFailure.fromDioError(DioException dioError) {
+    if (dioError.type == DioExceptionType.badResponse &&
+        dioError.response != null &&
+        dioError.response!.statusCode == 200) {
+      return EmptyServerFailure('No books found. Please try again later.');
+    } else {
+      return EmptyServerFailure('Opps There was an Error, Please try again');
+    }
+  }
+
+  factory EmptyServerFailure.fromResponse(int statusCode, dynamic response) {
+    if (statusCode == 200) {
+      return EmptyServerFailure('No books found. Please try again later.');
+    } else {
+      return EmptyServerFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
 
 // لو دورت في الكاش (Hive) وملقتش بيانات محفوظة
 class EmptyCacheFailure extends Failure {
   EmptyCacheFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحليل حالة البيانات الفارغة من الكاش
+  factory EmptyCacheFailure.fromDioError(DioException dioError) {
+    if (dioError.type == DioExceptionType.badResponse &&
+        dioError.response != null &&
+        dioError.response!.statusCode == 200) {
+      return EmptyCacheFailure(
+        'No cached books found. Please try again later.',
+      );
+    } else {
+      return EmptyCacheFailure('Opps There was an Error, Please try again');
+    }
+  }
+
+  factory EmptyCacheFailure.fromResponse(int statusCode, dynamic response) {
+    if (statusCode == 200) {
+      return EmptyCacheFailure(
+        'No cached books found. Please try again later.',
+      );
+    } else {
+      return EmptyCacheFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
 
 // لو مفيش بيانات شبكة متوفرة حالياً
 class EmptyNetworkFailure extends Failure {
   EmptyNetworkFailure(super.errorMessage);
+
+  // هنعمل مصنع لتحليل حالة البيانات الفارغة من الشبكة
+  factory EmptyNetworkFailure.fromDioError(DioException dioError) {
+    if (dioError.type == DioExceptionType.badResponse &&
+        dioError.response != null &&
+        dioError.response!.statusCode == 200) {
+      return EmptyNetworkFailure(
+        'No network data found. Please try again later.',
+      );
+    } else if (dioError.type == DioExceptionType.connectionError) {
+      return EmptyNetworkFailure(
+        'No Internet Connection. Please try again later.',
+      );
+    } else {
+      return EmptyNetworkFailure('Opps There was an Error, Please try again');
+    }
+  }
+
+  factory EmptyNetworkFailure.fromResponse(int statusCode, dynamic response) {
+    if (statusCode == 200) {
+      return EmptyNetworkFailure(
+        'No network data found. Please try again later.',
+      );
+    } else {
+      return EmptyNetworkFailure('Opps There was an Error, Please try again');
+    }
+  }
 }
