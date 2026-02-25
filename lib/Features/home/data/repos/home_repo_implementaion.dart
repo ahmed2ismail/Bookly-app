@@ -3,6 +3,7 @@ import 'package:bookly_app/Core/utils/api_service.dart';
 import 'package:bookly_app/Features/home/data/models/books_model/books_model.dart';
 import 'package:bookly_app/Features/home/data/repos/home_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 
 // implementation of the home repository
 // implement عشان انا عايز اعمل implementation لل home repository عشان يعمل كل اللي انا عايزه من ال api call اللي هي الشاشة دي هتتعامل معاها اللي هما featured books و best seller books او اي حاجة انا حددتهاله في ال home repository
@@ -21,6 +22,7 @@ class HomeRepoImplementaion implements HomeRepo {
   @override
   Future<Either<Failure, List<BooksModel>>> fetchNewestBooks() async {
     try {
+      // بننادي الـ API من خلال الـ ApiService اللي عملته في ال core/utils layer
       var data = await apiService.get(
         endpoint:
             'volumes?q=subject:Programming&Filtering=free-ebooks&Sorting=newest',
@@ -29,13 +31,16 @@ class HomeRepoImplementaion implements HomeRepo {
       // انا هنا بعمل parsing لل data اللي جالي من ال api call بتاعتي عشان اقدر احولها من ال json format اللي جالي بيه من ال api call بتاعتي ل objects من نوع BooksModel اللي انا عملته في ال data layer بتاعي عشان اقدر استخدمه في ال presentation layer بتاعي
       List<BooksModel> books = [];
       for (var item in data['items']) {
-        books.add(BooksModel.fromJson(item));
+        books.add(BooksModel.fromJson(item)); // JSON Parsing
       }
       return Right(books);
-    } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
     } catch (e) {
-      throw Exception('Failed to fetch newest books: $e');
+      // لو الخطأ من Dio بنستخدم الـ factory اللي عملناه
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      // لو خطأ غير متوقع برمجياً بنرجع رسالة خطأ عامة
+      return left(ServerFailure(e.toString()));
     }
   }
 
