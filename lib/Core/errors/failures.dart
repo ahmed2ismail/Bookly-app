@@ -5,9 +5,9 @@ import 'package:dio/dio.dart';
 
 // الكلاس الأساسي (الأب) لكل أنواع الأخطاء في التطبيق
 abstract class Failure {
-  final String errorMessage;
+  final String errMessage;
 
-  const Failure(this.errorMessage);
+  const Failure(this.errMessage);
 }
 
 // ---------------------------------------------------------
