@@ -5,9 +5,9 @@ import 'package:bookly_app/Features/home/data/repos/home_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-// implementation of the home repository
+// implementation(Impl) of the home repository
 // implement عشان انا عايز اعمل implementation لل home repository عشان يعمل كل اللي انا عايزه من ال api call اللي هي الشاشة دي هتتعامل معاها اللي هما featured books و best seller books او اي حاجة انا حددتهاله في ال home repository
-class HomeRepoImplementaion implements HomeRepo {
+class HomeRepoImpl implements HomeRepo {
   // انا فرضت عليه قاعدة ان هو يعمل implementation لكل ال methods اللي انا حددتهاله في ال home repository عشان كدا انا عملت override لكل ال methods
   // بعد كده انا هحدد انا هعمل ال request ب ايه يا اما ب dio package او ب http package وانا بحب ال dio package اكتر عشان هو بيحتوي علي مميزات كتيرة زي ال interceptors و ال global configuration و ال form data و ال file downloading و ال file uploading و ال request cancellation و ال timeout و غيرها كتير من المميزات اللي بتسهل عليا التعامل مع ال api call بتاعتي
   // ال dio package بيخليني اعمل request بطرق كتيرة زي ال get و ال post و ال put و ال delete و غيرها كتير من الطرق اللي بتسهل عليا التعامل مع ال api call بتاعتي
@@ -17,7 +17,7 @@ class HomeRepoImplementaion implements HomeRepo {
   // فهروح اعمل class اسمه ApiService في ال core/utils layer وهعمل فيه ال get request بتاعي و ال post request بتاعي و ال put request بتاعي و ال delete request بتاعي و اي حاجة انا محتاجها في ال api call بتاعتي زي ال headers و ال query parameters و غيرها كتير من الحاجات اللي بتسهل عليا التعامل مع ال api call بتاعتي
   final ApiService
   apiService; // انا هنا بعمل instance من ال ApiService عشان اقدر استخدمه في ال methods اللي هعملها في ال home repository implementation عشان اعمل ال api call بتاعتي لل features دول featured books و best seller books
-  HomeRepoImplementaion(this.apiService);
+  HomeRepoImpl(this.apiService);
 
   @override
   Future<Either<Failure, List<BooksModel>>> fetchNewestBooks() async {
