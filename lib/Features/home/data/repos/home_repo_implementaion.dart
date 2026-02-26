@@ -64,3 +64,15 @@ class HomeRepoImplementaion implements HomeRepo {
     }
   }
 }
+
+// وكدا احنا خلصنا ال Data Layer بتاعتي لل home feature
+// وكدا هنبدا نربط بين ال Data Layer بتاعتي وال Presentation Layer اللي فيها ال ui 
+// وهي دي ال MVVM architecture اللي انا بتبعها في ال flutter project بتاعي ودي متقسمة ل view model وبعد كده بعدين ال view اللي هي ال ui :
+// Model: هي المسؤولة عن تمثيل ال data اللي جايه من ال repository اللي هي ال data layer وبتحولها ل objects اللي ال view model بتحتاجها عشان تعرضها في ال ui
+// View: جزء من ال presentation layer هي المسؤولة عن عرض ال data اللي جايه من ال view model في ال ui وبتتعامل مع ال user interactions زي ال button clicks و ال text input و غيرها كتير من ال user interactions اللي بتحدث في ال ui
+// ViewModel: هي اللي بت manage ال state بتاع ال ui (view) وبتتعامل مع ال business logic --> bloc او provider او اي state management technique
+// عشان كده ال MVVM architecture , Bloc الاتنين زي بعض بالظبط لانهم بي manage ال state بتاع ال ui وبيتعاملوا مع ال business logic بس الفرق بينهم ان ال Bloc بيستخدم ال events وال states عشان يدير ال state بتاع ال ui اما ال ViewModel بيستخدم ال properties وال methods عشان يدير ال state بتاع ال ui
+// يعني جوه ال presentation layer بتاعتي انا ممكن اعمل view model folder و اعمل فيه ال view model بتاعتي اللي هي المسؤولة عن ال business logic و ال state management بتاع ال ui و بعد كده اعمل view folder و اعمل فيه ال ui بتاعتي اللي هي المسؤولة عن عرض ال data اللي جايه من ال view model في ال ui وبتتعامل مع ال user interactions زي ال button clicks و ال text input و غيرها كتير من ال user interactions اللي بتحدث في ال ui
+// يعني ال view model دا ممكن يكون اي حاجة زي ال bloc او ال provider او getx controller لانه بيعبر عن حاجة ب manage بيها ال state بتاع ال ui
+// بما انه متاح استخدم اي state management technique فانا هسميه manager عشان هو مش مرتبط بحاجة معينة زي ال bloc او ال provider او getx controller لانه بيعبر عن حاجة ب manage بيها ال state بتاع ال ui
+// وكدا احنا خلصنا ال presentation layer بتاعتي لل home feature
