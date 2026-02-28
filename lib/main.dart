@@ -24,13 +24,16 @@ class BooklyApp extends StatelessWidget {
           create: (context) => FeaturedBooksCubit(
             homeRepo: getIt
                 .get<HomeRepoImpl>(), // هنا بنسحب الـ instance الجاهز من get_it
-          ),
+          )..fetchFeaturedBooks(), // // الـ .. دي اسمها Cascade Notation في لغة Dart
+          // بتسمح لك تنفذ كود (Method) على الـ Object اللي لسه عامله create حالا من غير ما تضطر تخزنه في variable
+          // هنا بنقول له: بعد ما تعمل create للـ FeaturedBooksCubit، نادي فوراً على function الـ fetchFeaturedBooks عشان يبدأ يحمل البيانات أول ما التطبيق يفتح
+          // واحنا عملنا كده عشان منحطش ال request بتاعنا جوه stateFulWidget في init state
         ),
         BlocProvider(
           create: (context) => NewestBooksCubit(
             homeRepo: getIt
                 .get<HomeRepoImpl>(), // نفس الكلام للـ NewestBooksCubit
-          ),
+          )..fetchNewestBooks(), // استدعيلي ال method دي ونفذهالي مباشرة بعد متعمل ال cubit
         ),
       ],
       child: MaterialApp.router(
