@@ -15,7 +15,9 @@ class BookDetailsSection extends StatelessWidget {
         const SizedBox(height: 20),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: width * .2),
-          child: const CustomBookImage(),
+          child: const CustomBookImage(
+            imageUrl: 'https://www.pexels.com/photo/assorted-dvd-case-lot-on-shelves-276005/',
+          ),
         ),
         const SizedBox(height: 43),
         Text(

@@ -27,11 +27,13 @@ class FuturedBooksListView extends StatelessWidget {
               ),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
+                itemCount: state.books.length,
                 physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CustomBookImage(),
+                itemBuilder: (context, index) =>  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: CustomBookImage(
+                    imageUrl: state.books[index].volumeInfo.imageLinks.thumbnail,
+                  ),
                 ),
               ),
             ),

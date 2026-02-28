@@ -8,7 +8,7 @@ class BooksModel {
   String? id;
   String? etag;
   String? selfLink;
-  VolumeInfo? volumeInfo;
+  VolumeInfo volumeInfo;
   SaleInfo? saleInfo;
   AccessInfo? accessInfo;
   SearchInfo? searchInfo;
@@ -18,7 +18,7 @@ class BooksModel {
     this.id,
     this.etag,
     this.selfLink,
-    this.volumeInfo,
+    required this.volumeInfo,
     this.saleInfo,
     this.accessInfo,
     this.searchInfo,
@@ -29,9 +29,7 @@ class BooksModel {
     id: json['id'] as String?,
     etag: json['etag'] as String?,
     selfLink: json['selfLink'] as String?,
-    volumeInfo: json['volumeInfo'] == null
-        ? null
-        : VolumeInfo.fromJson(json['volumeInfo'] as Map<String, dynamic>),
+    volumeInfo: VolumeInfo.fromJson(json['volumeInfo'] as Map<String, dynamic>),
     saleInfo: json['saleInfo'] == null
         ? null
         : SaleInfo.fromJson(json['saleInfo'] as Map<String, dynamic>),
@@ -48,7 +46,7 @@ class BooksModel {
     'id': id,
     'etag': etag,
     'selfLink': selfLink,
-    'volumeInfo': volumeInfo?.toJson(),
+    'volumeInfo': volumeInfo.toJson(),
     'saleInfo': saleInfo?.toJson(),
     'accessInfo': accessInfo?.toJson(),
     'searchInfo': searchInfo?.toJson(),

@@ -24,7 +24,9 @@ class SimilarBooksListView extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) => const Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.0),
-            child: CustomBookImage(),
+            child: CustomBookImage(
+              imageUrl: 'https://www.pexels.com/photo/assorted-dvd-case-lot-on-shelves-276005/',
+            ),
           ),
         ),
       ),
