@@ -4,7 +4,7 @@ import 'panelization_summary.dart';
 import 'reading_modes.dart';
 
 class VolumeInfo {
-  String? title;
+  String title;
   List<String>? authors;
   String? publishedDate;
   List<IndustryIdentifier>? industryIdentifiers;
@@ -21,9 +21,11 @@ class VolumeInfo {
   String? previewLink;
   String? infoLink;
   String? canonicalVolumeLink;
+  final num? averageRating;
+  final int? ratingsCount;
 
   VolumeInfo({
-    this.title,
+    required this.title,
     this.authors,
     this.publishedDate,
     this.industryIdentifiers,
@@ -40,10 +42,12 @@ class VolumeInfo {
     this.previewLink,
     this.infoLink,
     this.canonicalVolumeLink,
+    this.averageRating,
+    this.ratingsCount,
   });
 
   factory VolumeInfo.fromJson(Map<String, dynamic> json) => VolumeInfo(
-    title: json['title'] as String?,
+    title: json['title'] as String,
     authors: (json['authors'] as List<dynamic>?)?.cast<String>(),
     publishedDate: json['publishedDate'] as String?,
     industryIdentifiers: (json['industryIdentifiers'] as List<dynamic>?)
@@ -68,6 +72,8 @@ class VolumeInfo {
     previewLink: json['previewLink'] as String?,
     infoLink: json['infoLink'] as String?,
     canonicalVolumeLink: json['canonicalVolumeLink'] as String?,
+    averageRating: json['averageRating'], 
+    ratingsCount: json['ratingsCount'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,5 +94,7 @@ class VolumeInfo {
     'previewLink': previewLink,
     'infoLink': infoLink,
     'canonicalVolumeLink': canonicalVolumeLink,
+    'averageRating': averageRating,
+    'ratingsCount': ratingsCount,
   };
 }

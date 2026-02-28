@@ -27,7 +27,7 @@ class HomeViewBody extends StatelessWidget {
             ],
           ),
         ),
-        SliverFillRemaining(child: NewestBooksListView()),
+        SliverToBoxAdapter(child: NewestBooksListView()),
         // SliverFillRemaining : بتستخدم عشان تخلي ال ListView اللي جواها تاخد المساحة المتبقية من ال screen وتتعامل معاها كأنها جزء واحد من ال scroll، وبكده حلينا مشكلة ال scrolling جوا ال ListView اللي كانت بتعارض ال CustomScrollView.
       ],
     );

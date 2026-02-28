@@ -13,6 +13,6 @@ final class NewestBooksSuccess extends NewestBooksState {
 }
 
 final class NewestBooksFailure extends NewestBooksState {
-  final String errorMessage;
-  NewestBooksFailure(this.errorMessage);
+  final String errMessage;
+  NewestBooksFailure(this.errMessage);
 }
