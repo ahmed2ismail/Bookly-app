@@ -12,6 +12,7 @@ class BooksShimmerLoading extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: Colors.grey[800]!,
       highlightColor: Colors.grey[700]!,
+      period: const Duration(seconds: 2), // وقت الأنميشن
       // بنختار شكل القائمة بناءً على المتغير
       child: isHorizontal ? _buildFeaturedLoading() : _buildNewestLoading(),
     );

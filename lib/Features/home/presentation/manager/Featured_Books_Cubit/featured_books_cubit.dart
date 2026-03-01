@@ -13,7 +13,13 @@ class FeaturedBooksCubit extends Cubit<FeaturedBooksState> {
   Future<void> fetchFeaturedBooks() async {
     emit(
       FeaturedBooksLoading(),
-    ); // انا هنا بعمل emit لل loading state عشان اعرض ال loading indicator في ال ui بتاعي لحد ما يخلص ال api call بتاعتي
+    ); // انا هنا بعمل emit لل loading state عشان اعرض ال shimmer scene في ال ui بتاعي لحد ما يخلص ال api call بتاعتي
+    /*
+    مشكلة "تجربة المستخدم" (UX) مشهورة جداً اسمها الـ UI Flickering أو الومضة.
+    المشكلة دي بتحصل لأن مكتبة Dio وجهازك الـ HP EliteBook سراع جداً في اكتشاف إن "مفيش نت"؛ فبمجرد ما الـ Cubit بيبدأ، بيعمل emit(Loading) (الـ Shimmer يظهر)، وفي أقل من أجزاء من الثانية الـ API بيطلع Error فبيعمل emit(Failure) (الـ Error يظهر). النتيجة إن العين بتشوف "رعشة" سريعة للـ Shimmer
+    بنضيف تأخير ثانية واحدة عشان الـ Shimmer يلحق يظهر
+    */
+    await Future.delayed(const Duration(seconds: 1));
     var result = await homeRepo
         .fetchFeaturedBooks(); // انا هنا بعمل استدعاء لل method اللي جوا ال home repository عشان اعمل ال api call بتاعتي لل featured books
     result.fold(
