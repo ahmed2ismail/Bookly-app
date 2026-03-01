@@ -25,7 +25,7 @@ class HomeRepoImpl implements HomeRepo {
       // بننادي الـ API من خلال الـ ApiService اللي عملته في ال core/utils layer
       var data = await apiService.get(
         endpoint:
-            'volumes?q=subject:Programming&Filtering=free-ebooks&Sorting=newest',
+            'volumes?q=Computer Science&Filtering=free-ebooks&Sorting=newest',
       );
       // ال data اللي جالي من ال api call بتاعتي بيكون في شكل json format اللي هي ال map الكبيرة خالص وانا طبعا عايز اوصل لل "items" اللي جواها فانا لازم اعمل parsing لل data دي عشان اقدر احولها ل objects من نوع BooksModel
       // انا هنا بعمل parsing لل data اللي جالي من ال api call بتاعتي عشان اقدر احولها من ال json format اللي جالي بيه من ال api call بتاعتي ل objects من نوع BooksModel اللي انا عملته في ال data layer بتاعي عشان اقدر استخدمه في ال presentation layer بتاعي

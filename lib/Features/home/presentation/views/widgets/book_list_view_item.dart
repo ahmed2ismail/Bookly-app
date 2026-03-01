@@ -19,13 +19,13 @@ class BookListViewItem extends StatelessWidget {
         GoRouter.of(context).push(AppRouter.kBookDetailsView);
       },
       child: SizedBox(
-        height: 125,
+        height: 130,
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: CustomBookImage(
-                imageUrl: booksModel.volumeInfo.imageLinks.thumbnail,
+                imageUrl: booksModel.volumeInfo.imageLinks?.thumbnail ?? '',
               ),
             ),
             const SizedBox(width: 30),
@@ -45,9 +45,13 @@ class BookListViewItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    booksModel.volumeInfo.authors![0],
+                    // بنستخدم ?.first ?? 'Unknown' عشان نهندل الـ null safety زي ما اتفقنا
+                    booksModel.volumeInfo.authors?.first ?? 'Unknown Author',
                     // 'J.K. Rowling',
                     style: Styles.textStyle14.copyWith(color: kAppGreyColor),
+                    maxLines: 1, // عشان مياخدش سطر تاني ويزيح التقييم لتحت
+                    overflow:
+                        TextOverflow.ellipsis, // يضيف نقاط (...) لو الاسم طويل
                   ),
                   const SizedBox(height: 3),
                   Row(
