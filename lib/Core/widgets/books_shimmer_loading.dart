@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class BooksShimmerLoading extends StatelessWidget {
-  final bool
-  isHorizontal; // لو true يرسم الـ Featured، لو false يرسم الـ Newest
+// استخدام الـ Enum بيخلي الكود منظم أكتر
+enum ShimmerType { featured, newest, similar }
 
-  const BooksShimmerLoading({super.key, this.isHorizontal = true});
+class BooksShimmerLoading extends StatelessWidget {
+  final ShimmerType type;
+
+  const BooksShimmerLoading({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[800]!,
       highlightColor: Colors.grey[700]!,
-      period: const Duration(seconds: 2), // وقت الأنميشن
-      // بنختار شكل القائمة بناءً على المتغير
-      child: isHorizontal ? _buildFeaturedLoading() : _buildNewestLoading(),
+      period: const Duration(seconds: 2),
+      child: _getShimmerShape(),
     );
+  }
+
+  Widget _getShimmerShape() {
+    switch (type) {
+      case ShimmerType.featured:
+        return _buildFeaturedLoading();
+      case ShimmerType.newest:
+        return _buildNewestLoading();
+      case ShimmerType.similar:
+        return _buildSimilarBooksLoading();
+    }
   }
 
   // شكل الـ Featured (الأفقي)
@@ -71,6 +83,31 @@ class BooksShimmerLoading extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // نفس الـ Featured بس أصغر شوية عشان صفحة الـ Details
+  Widget _buildSimilarBooksLoading() {
+    return SizedBox(
+      height: 120, // مناسب جداً لحجم الصور في التصميم
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 6,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: AspectRatio(
+            aspectRatio: 2.6 / 4, // نفس أبعاد صور الكتب في الـ Home
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(
+                  8,
+                ), // نفس الـ Radius في الصورة
+              ),
+            ),
+          ),
         ),
       ),
     );

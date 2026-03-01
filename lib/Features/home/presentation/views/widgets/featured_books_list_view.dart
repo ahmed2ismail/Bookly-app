@@ -64,7 +64,7 @@ class FuturedBooksListView extends StatelessWidget {
     } else {
       return const BooksShimmerLoading(
         key: ValueKey('loading'),
-        isHorizontal: true,
+        type: ShimmerType.featured,
       );
     }
   }

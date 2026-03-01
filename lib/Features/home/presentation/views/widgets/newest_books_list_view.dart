@@ -55,7 +55,7 @@ class NewestBooksListView extends StatelessWidget {
     } else {
       return const BooksShimmerLoading(
         key: ValueKey('loading'), // مفتاح فريد للـ Shimmer
-        isHorizontal: false,
+        type: ShimmerType.newest,
       );
     }
   }
