@@ -63,8 +63,30 @@ class HomeRepoImpl implements HomeRepo {
       return left(ServerFailure(e.toString()));
     }
   }
-}
 
+  @override
+  Future<Either<Failure, List<BooksModel>>> fetchSimilarBooks({
+    required String category,
+  }) async {
+    // نفس المنطق بنطبقه هنا لجلب الكتب المتشابهة لصفحة ال book_details_view (similar books) من ال API بس بنغير ال endpoint اللي بنناديه عشان يجيبلي الكتب المتشابهة للكتاب اللي جبنا بياناته في ال book_details_view
+    try {
+      var data = await apiService.get(
+        endpoint:
+            'volumes?Filtering=free-ebooks&Sorting=relevance&q=subject:Programming',
+      );
+      List<BooksModel> books = [];
+      for (var item in data['items']) {
+        books.add(BooksModel.fromJson(item));
+      }
+      return right(books);
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
+  }
+}
 // وكدا احنا خلصنا ال Data Layer بتاعتي لل home feature
 // وكدا هنبدا نربط بين ال Data Layer بتاعتي وال Presentation Layer اللي فيها ال ui 
 // وهي دي ال MVVM architecture اللي انا بتبعها في ال flutter project بتاعي ودي متقسمة ل view model وبعد كده بعدين ال view اللي هي ال ui :

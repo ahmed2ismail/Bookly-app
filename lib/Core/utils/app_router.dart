@@ -1,6 +1,11 @@
+import 'package:bookly_app/Core/utils/service_locator.dart';
 import 'package:bookly_app/Features/Splash/presentation/views/splash_view.dart';
+import 'package:bookly_app/Features/home/data/models/books_model/books_model.dart';
+import 'package:bookly_app/Features/home/data/repos/home_repo_implementaion.dart';
+import 'package:bookly_app/Features/home/presentation/manager/Similar_Books_Cubit/similar_books_cubit.dart';
 import 'package:bookly_app/Features/home/presentation/views/book_details_view.dart';
 import 'package:bookly_app/Features/home/presentation/views/home_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bookly_app/Features/search/presentation/views/search_view.dart';
 
@@ -15,7 +20,10 @@ abstract class AppRouter {
       GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
       GoRoute(
         path: kBookDetailsView,
-        builder: (context, state) => const BookDetailsView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => SimilarBooksCubit(homeRepo: getIt.get<HomeRepoImpl>()),
+          child: BookDetailsView(booksModel: state.extra as BooksModel,), // ال extra دي بيانات انا باعتها يعني اي Object انا بعته وانا بعمل push navigation لل book_details_view
+        ), // ال extra دي زي ال arguments
       ),
       GoRoute(
         path: kSearchView,

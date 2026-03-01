@@ -19,4 +19,5 @@ abstract class HomeRepo {
   // كدا احنا حددنا ال return type بتاع ال method ولو فيه arguments احنا محتاجينها فلازم تبعتها لل method دي عشان تنفذ ال api call بتاعتها زي مثلا لو انا عايز اعمل pagination في ال api call بتاعتي فانا بقول ال method دي لازم تبعتلي page number عشان اقدر اعمل pagination في ال api call بتاعتي
   Future<Either<Failure, List<BooksModel>>> fetchFeaturedBooks();
   Future<Either<Failure, List<BooksModel>>> fetchNewestBooks();
+  Future<Either<Failure, List<BooksModel>>> fetchSimilarBooks({required String category});
 }
