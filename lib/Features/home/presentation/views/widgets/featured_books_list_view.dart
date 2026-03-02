@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:bookly_app/Core/utils/app_router.dart';
 import 'package:bookly_app/Core/widgets/custom_error_widget.dart';
 import 'package:bookly_app/Core/widgets/books_shimmer_loading.dart';
 import 'package:bookly_app/Features/home/presentation/manager/Featured_Books_Cubit/featured_books_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:bookly_app/Features/home/presentation/manager/Newest_Books_Cubit
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class FuturedBooksListView extends StatelessWidget {
   const FuturedBooksListView({super.key});
@@ -46,6 +48,7 @@ class FuturedBooksListView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: CustomBookImage(
                 imageUrl: state.books[index].volumeInfo.imageLinks?.thumbnail ?? '',
+                onTap: () => GoRouter.of(context).push(AppRouter.kBookDetailsView, extra: state.books[index]),
               ),
             ),
           ),

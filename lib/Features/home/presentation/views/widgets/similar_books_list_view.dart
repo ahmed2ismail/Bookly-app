@@ -1,10 +1,12 @@
 import 'dart:ui';
+import 'package:bookly_app/Core/utils/app_router.dart';
 import 'package:bookly_app/Core/widgets/books_shimmer_loading.dart';
 import 'package:bookly_app/Core/widgets/custom_error_widget.dart';
 import 'package:bookly_app/Features/home/presentation/manager/Similar_Books_Cubit/similar_books_cubit.dart';
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SimilarBooksListView extends StatelessWidget {
   const SimilarBooksListView({super.key});
@@ -21,7 +23,10 @@ class SimilarBooksListView extends StatelessWidget {
     );
   }
 
-  Widget _buildAnimatedWidget(SimilarBooksCubitState state, BuildContext context) {
+  Widget _buildAnimatedWidget(
+    SimilarBooksCubitState state,
+    BuildContext context,
+  ) {
     if (state is SimilarBooksCubitSuccess) {
       return SizedBox(
         key: const ValueKey('success'),
@@ -37,13 +42,16 @@ class SimilarBooksListView extends StatelessWidget {
           ),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 20,
+            itemCount: state.books.length,
             physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) => const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: CustomBookImage(
                 imageUrl:
-                    'https://www.pexels.com/photo/assorted-dvd-case-lot-on-shelves-276005/',
+                    state.books[index].volumeInfo.imageLinks?.thumbnail ?? '',
+                onTap: () => GoRouter.of(
+                  context,
+                ).push(AppRouter.kBookDetailsView, extra: state.books[index]),
               ),
             ),
           ),
@@ -54,7 +62,9 @@ class SimilarBooksListView extends StatelessWidget {
         key: const ValueKey('failure'), // مفتاح فريد لحالة الخطأ
         errMessage: state.errMessage,
         onPressed: () {
-          BlocProvider.of<SimilarBooksCubit>(context).fetchSimilarBooks(category: 'Programming');
+          BlocProvider.of<SimilarBooksCubit>(
+            context,
+          ).fetchSimilarBooks(category: 'Programming');
         },
       );
     } else {
