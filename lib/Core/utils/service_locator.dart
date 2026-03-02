@@ -16,6 +16,7 @@ return MultiBlocProvider(
 
 import 'package:bookly_app/Core/utils/api_service.dart';
 import 'package:bookly_app/Features/home/data/repos/home_repo_implementaion.dart';
+import 'package:bookly_app/Features/search/data/SearchRepo/search_repo_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -37,6 +38,10 @@ void setupServiceLocator() {
             ApiService
           >(), // هنا get_it بتدور على الـ ApiService اللي سجلناه فوق وبتبعته لـ HomeRepoImpl
     ),
+  );
+  // 3. تسجيل الـ SearchRepoImpl:
+  getIt.registerSingleton<SearchRepoImpl>(
+    SearchRepoImpl(getIt.get<ApiService>()),
   );
 }
 
