@@ -15,9 +15,17 @@ class BookListViewItem extends StatelessWidget {
   final BooksModel booksModel;
   @override
   Widget build(BuildContext context) {
+    // فصل الـ Logic بتاع السعر في متغير
+    String priceText = booksModel.saleInfo?.saleability == 'NOT_FOR_SALE'
+        ? 'Not for Sale'
+        : booksModel.saleInfo?.listPrice?.amount == null
+        ? 'Free'
+        : '${booksModel.saleInfo!.listPrice!.amount} ${booksModel.saleInfo!.listPrice!.currencyCode}';
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).push(AppRouter.kBookDetailsView, extra: booksModel);
+        GoRouter.of(
+          context,
+        ).push(AppRouter.kBookDetailsView, extra: booksModel);
       },
       child: SizedBox(
         height: 130.h,
@@ -59,8 +67,7 @@ class BookListViewItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Free',
-                        // '19.99 €',
+                        priceText, // '19.99 €',
                         style: Styles.textStyle20.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

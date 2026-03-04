@@ -11,7 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  setupServiceLocator(); // لازم تناديها قبل الـ runApp
+  setupServiceLocator(); // تهيئة الـ GetIt قبل تشغيل التطبيق و لازم نناديها قبل الـ runApp
   runApp(
     DevicePreview(
       enabled:
@@ -45,14 +45,27 @@ class BooklyApp extends StatelessWidget {
         ),
       ],
       child: ScreenUtilInit(
-        designSize: const Size(375, 812), // مقاس تصميم Figma الشائع
+        designSize: const Size(375, 812), // مقاس تصميم Figma الشائع و ضبط مقاسات التصميم الأصلية
         minTextAdapt: true, // عشان الخط يتناسب مع كل الشاشات
         splitScreenMode:
             true, // عشان لو الشاشة كبيرة (زي التابلت) يوزع المحتوى بشكل أفضل
         builder: (context, child) {
           return MaterialApp.router(
-            locale: DevicePreview.locale(context), // عشان نستخدم DevicePreview في كل التطبيق
-            builder: DevicePreview.appBuilder, // عشان نستخدم DevicePreview في كل التطبيق
+            // ضبط الـ Locale والـ Builder ليعمل مع DevicePreview
+            locale: DevicePreview.locale(context),
+            builder: (context, child) {
+              // 1. تشغيل الـ DevicePreview أولاً
+              child = DevicePreview.appBuilder(context, child);
+              
+              // 2. تغليف التطبيق بـ MediaQuery لتثبيت حجم الخط
+              return MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  // إجبار الخط على الثبات عند معامل 1.0 لمنع الـ Overflow
+                  textScaler: const TextScaler.linear(1.0), 
+                ),
+                child: child,
+              );
+            },
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             title: 'Bookly App',
