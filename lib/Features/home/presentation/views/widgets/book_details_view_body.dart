@@ -1,6 +1,7 @@
 import 'package:bookly_app/Features/home/data/models/books_model/books_model.dart';
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_details_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'books_details_section.dart';
 import 'similar_books_section.dart';
 
@@ -22,7 +23,7 @@ class BookDetailsViewBody extends StatelessWidget {
               children: [
                 const CustomBookDetailsAppBar(),
                 BookDetailsSection(booksModel: booksModel,),
-                const Expanded(child: SizedBox(height: 50)),
+                Expanded(child: SizedBox(height: 50.h)),
                 const SimilarBooksSection(),
               ],
             ),

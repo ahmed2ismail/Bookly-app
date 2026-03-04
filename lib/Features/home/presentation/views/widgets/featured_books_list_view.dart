@@ -7,6 +7,7 @@ import 'package:bookly_app/Features/home/presentation/manager/Newest_Books_Cubit
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class FuturedBooksListView extends StatelessWidget {
@@ -30,7 +31,7 @@ class FuturedBooksListView extends StatelessWidget {
     if (state is FeaturedBooksSuccess) {
       return SizedBox(
         key: const ValueKey('success'),
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.3.h,
         // ال AspectRatio هتظبط ابعاد الصورة علي اساس ابعاد ال SizedBox والصورة هتبقي Responsible و مظبوطة علي اي جهاز
         child: ScrollConfiguration(
           behavior: const MaterialScrollBehavior().copyWith(

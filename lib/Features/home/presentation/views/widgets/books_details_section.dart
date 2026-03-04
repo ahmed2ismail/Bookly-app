@@ -4,6 +4,7 @@ import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_
 import 'package:bookly_app/Features/home/presentation/views/widgets/book_rating.dart';
 import 'package:bookly_app/Core/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookDetailsSection extends StatelessWidget {
   const BookDetailsSection({super.key, required this.booksModel});
@@ -11,25 +12,25 @@ class BookDetailsSection extends StatelessWidget {
   final BooksModel booksModel;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width.w;
     return Column(
       children: [
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * .2),
+          padding: EdgeInsets.symmetric(horizontal: width * .2.w),
           child: CustomBookImage(
             imageUrl: booksModel.volumeInfo.imageLinks?.thumbnail ?? '',
             // 'https://www.pexels.com/photo/assorted-dvd-case-lot-on-shelves-276005/',
           ),
         ),
-        const SizedBox(height: 43),
+        SizedBox(height: 43.h),
         Text(
           booksModel.volumeInfo.title,
           // 'The Jungle Book',
           style: Styles.textStyle30.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6.h),
         Opacity(
           opacity: 0.7,
           child: Text(
@@ -42,13 +43,13 @@ class BookDetailsSection extends StatelessWidget {
           textAlign: TextAlign.center,
           ),
         ),
-        const SizedBox(height: 18),
+        SizedBox(height: 18.h),
         BookRating(
           mainAxisAlignment: MainAxisAlignment.center,
           rating: booksModel.volumeInfo.averageRating ?? 0,
           count: booksModel.volumeInfo.ratingsCount ?? 0,
         ),
-        const SizedBox(height: 37),
+        SizedBox(height: 37.h),
         BooksActionButtons(booksModel: booksModel,),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SlidingAnimationText extends StatelessWidget {
   const SlidingAnimationText({
@@ -17,11 +18,11 @@ class SlidingAnimationText extends StatelessWidget {
         // _   : بمعني مش هنستخدمها
         return SlideTransition(
           position: slideTransitionAnimation,
-          child: const Text(
+          child: Text(
             'Enjoy Readying With Free Books',
-            style: TextStyle(fontSize: 17),
+            style: TextStyle(fontSize: 17.sp),
             textAlign: TextAlign.center,
-            textScaler: TextScaler.linear(0.90),
+            textScaler: const TextScaler.linear(0.90),
           ),
         );
       },

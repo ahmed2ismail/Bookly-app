@@ -2,6 +2,7 @@ import 'package:bookly_app/Features/search/presentation/manager/Search_Books_Cub
 import 'package:bookly_app/Features/search/presentation/views/widgets/search_result_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'custom_search_text_field.dart';
 
 class SearchViewBody extends StatefulWidget {
@@ -30,10 +31,10 @@ class _SearchViewBodyState extends State<SearchViewBody> {
         children: [
           // بنمرر الـ Controller للـ TextField
           CustomSearchTextField(controller: searchController),
-          const SizedBox(height: 42),
-          const Text(
+          SizedBox(height: 42.h),
+          Text(
             'Search Result',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
           // هنا بنخلي عدد النتائج ديناميكي
           BlocBuilder<SearchBooksCubit, SearchBooksState>(
@@ -46,15 +47,15 @@ class _SearchViewBodyState extends State<SearchViewBody> {
                 'results found: $count',
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.5),
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
                 ),
               );
             },
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Expanded(
-            // بنمرر الـ Controller عشان الـ Retry يشتغل صحه في كل الشاشة
+            // بنمرر الـ Controller عشان الـ Retry يشتغل صح في كل الشاشة
             child: SearchResultListView(searchController: searchController),
           ),
         ],

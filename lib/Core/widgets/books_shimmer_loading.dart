@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 // استخدام الـ Enum بيخلي الكود منظم أكتر
@@ -33,7 +34,7 @@ class BooksShimmerLoading extends StatelessWidget {
   // شكل الـ Featured (الأفقي)
   Widget _buildFeaturedLoading() {
     return SizedBox(
-      height: 200, // نفس ارتفاع الـ Featured عندك
+      height: 200.h, // نفس ارتفاع الـ Featured عندك
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 5,
@@ -64,21 +65,21 @@ class BooksShimmerLoading extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 70,
-              height: 100,
+              width: 70.w,
+              height: 100.h,
               color: Colors.black,
             ), // محاكاة الصورة
-            const SizedBox(width: 20),
+            SizedBox(width: 20.w),
             Expanded(
               child: Column(
                 children: [
                   Container(
                     width: double.infinity,
-                    height: 15,
+                    height: 15.h,
                     color: Colors.black,
                   ),
-                  const SizedBox(height: 10),
-                  Container(width: 100, height: 15, color: Colors.black),
+                  SizedBox(height: 10.h),
+                  Container(width: 100.w, height: 15.h, color: Colors.black),
                 ],
               ),
             ),
@@ -91,7 +92,7 @@ class BooksShimmerLoading extends StatelessWidget {
   // نفس الـ Featured بس أصغر شوية عشان صفحة الـ Details
   Widget _buildSimilarBooksLoading() {
     return SizedBox(
-      height: 120, // مناسب جداً لحجم الصور في التصميم
+      height: 120.h, // مناسب جداً لحجم الصور في التصميم
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 6,

@@ -5,6 +5,7 @@ import 'package:bookly_app/Features/home/presentation/views/widgets/book_rating.
 import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_image.dart';
 import 'package:bookly_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class BookListViewItem extends StatelessWidget {
@@ -19,7 +20,7 @@ class BookListViewItem extends StatelessWidget {
         GoRouter.of(context).push(AppRouter.kBookDetailsView, extra: booksModel);
       },
       child: SizedBox(
-        height: 130,
+        height: 130.h,
         child: Row(
           children: [
             ClipRRect(
@@ -28,7 +29,7 @@ class BookListViewItem extends StatelessWidget {
                 imageUrl: booksModel.volumeInfo.imageLinks?.thumbnail ?? '',
               ),
             ),
-            const SizedBox(width: 30),
+            SizedBox(width: 30.w),
             Expanded(
               // عشان ال row اللي جواه يتوسع وياخد مساحته لان ال Column بيعمل shrink
               child: Column(
@@ -43,7 +44,7 @@ class BookListViewItem extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3.h),
                   Text(
                     // بنستخدم ?.first ?? 'Unknown' عشان نهندل الـ null safety زي ما اتفقنا
                     booksModel.volumeInfo.authors?.first ?? 'Unknown Author',
@@ -53,7 +54,7 @@ class BookListViewItem extends StatelessWidget {
                     overflow:
                         TextOverflow.ellipsis, // يضيف نقاط (...) لو الاسم طويل
                   ),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

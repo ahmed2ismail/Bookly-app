@@ -5,6 +5,7 @@ import 'package:bookly_app/Features/home/presentation/manager/Featured_Books_Cub
 import 'package:bookly_app/Features/home/presentation/manager/Newest_Books_Cubit/newest_books_cubit.dart';
 import 'package:bookly_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,16 +37,23 @@ class BooklyApp extends StatelessWidget {
           )..fetchNewestBooks(), // استدعيلي ال method دي ونفذهالي مباشرة بعد متعمل ال cubit
         ),
       ],
-      child: MaterialApp.router(
-        routerConfig: AppRouter.router,
-        debugShowCheckedModeBanner: false,
-        title: 'Bookly App',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: kPrimaryColor,
-          textTheme: GoogleFonts.montserratTextTheme(
-            ThemeData.dark().textTheme,
-          ),
-        ),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812), // مقاس تصميم Figma الشائع
+        minTextAdapt: true, // عشان الخط يتناسب مع كل الشاشات
+        splitScreenMode: true, // عشان لو الشاشة كبيرة (زي التابلت) يوزع المحتوى بشكل أفضل
+        builder: (context, child) {
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
+            debugShowCheckedModeBanner: false,
+            title: 'Bookly App',
+            theme: ThemeData.dark().copyWith(
+              scaffoldBackgroundColor: kPrimaryColor,
+              textTheme: GoogleFonts.montserratTextTheme(
+                ThemeData.dark().textTheme,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

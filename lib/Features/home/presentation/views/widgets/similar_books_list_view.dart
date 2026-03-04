@@ -7,6 +7,7 @@ import 'package:bookly_app/Features/home/presentation/views/widgets/custom_book_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SimilarBooksListView extends StatelessWidget {
   const SimilarBooksListView({super.key});
@@ -30,7 +31,7 @@ class SimilarBooksListView extends StatelessWidget {
     if (state is SimilarBooksCubitSuccess) {
       return SizedBox(
         key: const ValueKey('success'),
-        height: MediaQuery.of(context).size.height * 0.15,
+        height: MediaQuery.of(context).size.height * 0.15.h,
         // ال AspectRatio هتظبط ابعاد الصورة علي اساس ابعاد ال SizedBox والصورة هتبقي Responsible و مظبوطة علي اي جهاز
         child: ScrollConfiguration(
           behavior: const MaterialScrollBehavior().copyWith(

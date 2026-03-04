@@ -1,6 +1,7 @@
 import 'package:bookly_app/Core/utils/functions/launch_url.dart';
 import 'package:bookly_app/Features/home/data/models/books_model/books_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../Core/widgets/custom_button.dart';
 
 class BooksActionButtons extends StatelessWidget {
@@ -49,7 +50,7 @@ class BooksActionButtons extends StatelessWidget {
               },
             ),
           ),
-          Container(width: 0.5, color: Colors.black, height: 48),
+          Container(width: 0.5.w, color: Colors.black, height: 48.h),
           Expanded(
             child: CustomButton(
               text: booksModel.volumeInfo.previewLink == null
@@ -61,7 +62,7 @@ class BooksActionButtons extends StatelessWidget {
                 topRight: Radius.circular(16),
                 bottomRight: Radius.circular(16),
               ),
-              fontsize: 16,
+              fontsize: 16.sp,
               onPressed: () async {
                 // بنحاول نفتح رابط القارئ أولاً، لو مش موجود نفتح رابط المعاينة التقليدي
                 String? url =

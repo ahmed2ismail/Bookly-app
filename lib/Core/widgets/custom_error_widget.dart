@@ -1,5 +1,6 @@
 import 'package:bookly_app/Core/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String errMessage;
@@ -22,7 +23,7 @@ class CustomErrorWidget extends StatelessWidget {
             style: Styles.textStyle18, 
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           IconButton(
             onPressed: onPressed, // تنفيذ الوظيفة الممررة
             icon: const Icon(Icons.refresh, size: 30, color: Colors.white),
