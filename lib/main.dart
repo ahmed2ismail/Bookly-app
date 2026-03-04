@@ -4,6 +4,7 @@ import 'package:bookly_app/Features/home/data/repos/home_repo_implementaion.dart
 import 'package:bookly_app/Features/home/presentation/manager/Featured_Books_Cubit/featured_books_cubit.dart';
 import 'package:bookly_app/Features/home/presentation/manager/Newest_Books_Cubit/newest_books_cubit.dart';
 import 'package:bookly_app/constants.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   setupServiceLocator(); // لازم تناديها قبل الـ runApp
-  runApp(const BooklyApp());
+  runApp(
+    DevicePreview(
+      enabled:
+          true, // بنشغله بس وقت التطوير عشان نقدر نشوف التطبيق علي كل الأجهزة
+      builder: (context) => const BooklyApp(),
+    ),
+  );
 }
 
 class BooklyApp extends StatelessWidget {
@@ -40,9 +47,12 @@ class BooklyApp extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: const Size(375, 812), // مقاس تصميم Figma الشائع
         minTextAdapt: true, // عشان الخط يتناسب مع كل الشاشات
-        splitScreenMode: true, // عشان لو الشاشة كبيرة (زي التابلت) يوزع المحتوى بشكل أفضل
+        splitScreenMode:
+            true, // عشان لو الشاشة كبيرة (زي التابلت) يوزع المحتوى بشكل أفضل
         builder: (context, child) {
           return MaterialApp.router(
+            locale: DevicePreview.locale(context), // عشان نستخدم DevicePreview في كل التطبيق
+            builder: DevicePreview.appBuilder, // عشان نستخدم DevicePreview في كل التطبيق
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             title: 'Bookly App',
