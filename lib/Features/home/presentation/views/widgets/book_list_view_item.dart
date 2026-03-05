@@ -16,11 +16,15 @@ class BookListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // فصل الـ Logic بتاع السعر في متغير
-    String priceText = booksModel.saleInfo?.saleability == 'NOT_FOR_SALE'
-        ? 'Not for Sale'
-        : booksModel.saleInfo?.listPrice?.amount == null
+    String priceText =
+        (booksModel.saleInfo?.saleability == 'FREE' ||
+            booksModel.saleInfo?.listPrice?.amount == 0)
         ? 'Free'
-        : '${booksModel.saleInfo!.listPrice!.amount} ${booksModel.saleInfo!.listPrice!.currencyCode}';
+        : booksModel.saleInfo?.saleability == 'NOT_FOR_SALE'
+        ? 'Not for Sale'
+        : booksModel.saleInfo?.listPrice?.amount != null
+        ? '${booksModel.saleInfo!.listPrice!.amount} ${booksModel.saleInfo!.listPrice!.currencyCode}'
+        : 'Free'; // Fallback لو مفيش بيانات خالص
     return GestureDetector(
       onTap: () {
         GoRouter.of(
@@ -66,10 +70,23 @@ class BookListViewItem extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        priceText, // '19.99 €',
-                        style: Styles.textStyle20.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit
+                              .scaleDown, // عشان السعر لو طويل يضبط نفسه جوه المساحة المتاحة بدل ما يطلع برا او يختفي
+                          alignment: Alignment
+                              .centerLeft, // عشان السعر يلتصق بالشمال بدل ما يكون في النص لو كان قصير
+                          child: Text(
+                            priceText, // '19.99 €',
+                            style: Styles.textStyle16.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: priceText == 'Free'
+                                  ? Colors.green[300]
+                                  : null,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       const Spacer(),

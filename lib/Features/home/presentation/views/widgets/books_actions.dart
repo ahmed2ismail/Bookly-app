@@ -10,8 +10,15 @@ class BooksActionButtons extends StatelessWidget {
   final BooksModel booksModel;
   @override
   Widget build(BuildContext context) {
-    // تحديد لو الكتاب مجاني ولا لا عشان نستخدمها في كذا مكان
-    bool isFree = booksModel.saleInfo?.listPrice?.amount == null;
+    String priceText =
+        (booksModel.saleInfo?.saleability == 'FREE' ||
+            booksModel.saleInfo?.listPrice?.amount == 0)
+        ? 'Free'
+        : booksModel.saleInfo?.saleability == 'NOT_FOR_SALE'
+        ? 'Not for Sale'
+        : booksModel.saleInfo?.listPrice?.amount != null
+        ? '${booksModel.saleInfo!.listPrice!.amount} ${booksModel.saleInfo!.listPrice!.currencyCode}'
+        : 'Free'; // Fallback لو مفيش بيانات خالص
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
@@ -19,9 +26,7 @@ class BooksActionButtons extends StatelessWidget {
           Expanded(
             child: CustomButton(
               // '19.99 €',
-              text: booksModel.saleInfo?.listPrice?.amount == null
-                  ? 'Free'
-                  : '${booksModel.saleInfo!.listPrice!.amount} ${booksModel.saleInfo!.listPrice!.currencyCode}',
+              text: priceText,
               backgroundColor: Colors.white,
               textColor: Colors.black,
               borderRadius: const BorderRadius.only(
@@ -33,7 +38,11 @@ class BooksActionButtons extends StatelessWidget {
                 String? buyUrl = booksModel.saleInfo?.buyLink;
                 if (buyUrl != null) {
                   // هنا بنفتح لينك الشراء وممكن نمرر isFree لو هو فعلاً مجاني
-                  await launchBookUrl(context, buyUrl, isFree: isFree);
+                  await launchBookUrl(
+                    context,
+                    buyUrl,
+                    isFree: priceText == 'Free',
+                  );
                 } else {
                   // لو مفيش لينك شراء (وده بيحصل في الكتب الـ NOT_FOR_SALE)
                   if (context.mounted) {
@@ -69,7 +78,7 @@ class BooksActionButtons extends StatelessWidget {
                     booksModel.accessInfo?.webReaderLink ??
                     booksModel.volumeInfo.previewLink;
                 // تمرير حالة المجانية لإظهار الرسالة الإيجابية
-                await launchBookUrl(context, url, isFree: isFree);
+                await launchBookUrl(context, url, isFree: priceText == 'Free');
               },
             ),
           ),
