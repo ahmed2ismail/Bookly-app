@@ -11,6 +11,7 @@ class SearchBooksCubit extends Cubit<SearchBooksState> {
   final SearchRepo searchRepo;
   Future<void> fetchSearchBooks({required String bookName}) async {
     emit(SearchCubitLoading());
+    if (isClosed) return; // لو ال Cubit اتقفل ما نكملش تنفيذ الكود
     var result = await searchRepo.fetchSearchBooks(bookName: bookName);
     result.fold(
       (failure) => emit(SearchCubitFailure(failure.errMessage)),
